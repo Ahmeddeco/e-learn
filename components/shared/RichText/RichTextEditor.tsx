@@ -7,13 +7,12 @@ import TextAlign from "@tiptap/extension-text-align"
 import { Input } from "@/components/ui/input"
 import { useState } from "react"
 
-
 type Props = {
 	field: any
 }
 
 const RichTextEditor = ({ field }: Props) => {
-	const [textAreaValue, setTextAreaValue] = useState(field.defaultValue)
+	const [textAreaValue, setTextAreaValue] = useState(field.defaultValue ?? "")
 
 	const editor = useEditor({
 		extensions: [StarterKit, TextAlign.configure({ types: ["heading", "paragraph"] })],
@@ -26,22 +25,17 @@ const RichTextEditor = ({ field }: Props) => {
 
 		onUpdate: ({ editor }) => {
 			const value = JSON.stringify(editor.getJSON())
+			setTextAreaValue(value)
 		},
 
-		content: field.value ? JSON.parse(field.value as string) : undefined,
+		content: field.value ? JSON.parse(textAreaValue as string) : undefined,
 
 		immediatelyRender: false,
 	})
 
 	return (
 		<div className="w-full border border-input rounded-xl overflow-hidden ">
-			<Input
-				type="hidden"
-				key={field.key}
-				name={field.name}
-				defaultValue={field.initialValue as string}
-				value={textAreaValue}
-			/>
+			<Input type="hidden" key={field.key} name={field.name} value={textAreaValue ?? ""} />
 			<Menubar editor={editor} />
 			<EditorContent editor={editor} />
 		</div>

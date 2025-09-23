@@ -12,7 +12,7 @@ export const CourseSchema = z.object({
   fileKey: z.string().min(1),
   price: z.number().min(1),
   duration: z.number().min(1).max(500),
-  smallDescription: z.string().min(3).max(200),
+  smallDescription: z.string().min(3),
   slug: z.string().min(3),
   userId: z.string().nullish(),
 })
