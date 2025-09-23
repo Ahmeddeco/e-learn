@@ -19,6 +19,7 @@ import LevelSchema from "@/generated/zod/inputTypeSchemas/LevelSchema"
 import StatusSchema from "@/generated/zod/inputTypeSchemas/StatusSchema"
 import slugify from "slugify"
 import CourseCategoriesSchema from "@/generated/zod/inputTypeSchemas/CourseCategoriesSchema"
+import RichTextEditor from "@/components/shared/RichText/RichTextEditor"
 
 export default function CreateCoursePage() {
 	const [lastResult, action] = useActionState(createCourseAction, undefined)
@@ -56,7 +57,7 @@ export default function CreateCoursePage() {
 								key={fields.title.key}
 								name={fields.title.name}
 								defaultValue={fields.title.initialValue}
-								placeholder="ahmed"
+								placeholder="ahmed mohamed"
 							/>
 							<div className="text-destructive">{fields.title.errors}</div>
 						</div>
@@ -65,7 +66,13 @@ export default function CreateCoursePage() {
 						<div className="flex flex-col gap-2">
 							<Label>slug</Label>
 							<div className="flex items-center gap-4">
-								<Input type="text" key={fields.slug.key} name={fields.slug.name} defaultValue={slug} />
+								<Input
+									type="text"
+									key={fields.slug.key}
+									name={fields.slug.name}
+									defaultValue={slug}
+									placeholder="ahmed-mohamed"
+								/>
 								<Button
 									type="button"
 									onClick={() => {
@@ -84,11 +91,14 @@ export default function CreateCoursePage() {
 						{/* ---------------------------- small Description --------------------------- */}
 						<div className="flex flex-col gap-2">
 							<Label>small Description</Label>
-							<Textarea
+							{/* <Textarea
 								key={fields.smallDescription.key}
 								name={fields.smallDescription.name}
 								defaultValue={fields.smallDescription.initialValue}
-							/>
+							/> */}
+
+							<RichTextEditor field={fields.smallDescription} key={fields.smallDescription.key} />
+
 							<div className="text-destructive">{fields.smallDescription.errors}</div>
 						</div>
 
@@ -108,7 +118,7 @@ export default function CreateCoursePage() {
 							<Label>category</Label>
 							<Select key={fields.category.key} name={fields.category.name} defaultValue={fields.category.initialValue}>
 								<SelectTrigger className="w-full">
-									<SelectValue placeholder="category" />
+									<SelectValue placeholder={CourseCategoriesSchema.enum.development} />
 								</SelectTrigger>
 								<SelectContent>
 									{Object.values(CourseCategoriesSchema.enum).map((category) => (
@@ -126,7 +136,7 @@ export default function CreateCoursePage() {
 							<Label>Level</Label>
 							<Select key={fields.level.key} name={fields.level.name} defaultValue={fields.level.initialValue}>
 								<SelectTrigger className="w-full">
-									<SelectValue placeholder="Level" />
+									<SelectValue placeholder={LevelSchema.enum.beginner} />
 								</SelectTrigger>
 								<SelectContent>
 									{Object.values(LevelSchema.enum).map((level) => (
@@ -144,7 +154,7 @@ export default function CreateCoursePage() {
 							<Label>status</Label>
 							<Select key={fields.status.key} name={fields.status.name} defaultValue={fields.status.initialValue}>
 								<SelectTrigger className="w-full">
-									<SelectValue placeholder="status" />
+									<SelectValue placeholder={StatusSchema.enum.draft} />
 								</SelectTrigger>
 								<SelectContent>
 									{Object.values(StatusSchema.enum).map((status) => (
@@ -159,24 +169,26 @@ export default function CreateCoursePage() {
 
 						{/* -------------------------------- duration -------------------------------- */}
 						<div className="flex flex-col gap-2">
-							<Label>duration</Label>
+							<Label>duration (hours)</Label>
 							<Input
 								type="number"
 								key={fields.duration.key}
 								name={fields.duration.name}
 								defaultValue={fields.duration.initialValue}
+								placeholder="0"
 							/>
 							<div className="text-destructive">{fields.duration.errors}</div>
 						</div>
 
 						{/* ---------------------------------- price --------------------------------- */}
 						<div className="flex flex-col gap-2">
-							<Label>price</Label>
+							<Label>price ($)</Label>
 							<Input
 								type="number"
 								key={fields.price.key}
 								name={fields.price.name}
 								defaultValue={fields.price.initialValue}
+								placeholder="0"
 							/>
 							<div className="text-destructive">{fields.price.errors}</div>
 						</div>
